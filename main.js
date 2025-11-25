@@ -14,6 +14,10 @@ const repoPathInput = document.getElementById('repoPath');
 const statusDiv = document.getElementById('status');
 const commitListDiv = document.getElementById('commitList');
 const commitCountDiv = document.getElementById('commitCount');
+const themeToggle = document.getElementById('themeToggle');
+const themeIcon = document.getElementById('themeIcon');
+const themeText = document.getElementById('themeText');
+const resetCamera = document.getElementById('resetCamera');
 
 // Music mapping configuration
 const SCALES = {
@@ -132,46 +136,28 @@ function commitToNote(commit, index) {
 function displayCommits() {
   // Update commit count
   if (commitCountDiv) {
-    commitCountDiv.textContent = `${commits.length} commit${commits.length !== 1 ? 's' : ''}`;
+    commitCountDiv.textContent = `${commits.length} commits`;
   }
   
   commitListDiv.innerHTML = commits.map((commit, index) => {
-    const totalChanges = commit.additions + commit.deletions;
-    const sizeLabel = totalChanges > 100 ? 'Large' : totalChanges > 50 ? 'Medium' : 'Small';
-    const sizeColor = totalChanges > 100 ? 'text-red-400' : totalChanges > 50 ? 'text-orange-400' : 'text-cyan-400';
+    // Ensure date is a Date object
+    const commitDate = commit.date instanceof Date ? commit.date : new Date(commit.date);
+    const dateStr = commitDate.toLocaleDateString();
     
     return `
-      <div class="commit-item group relative p-5 bg-gradient-to-r from-muted/30 to-muted/10 hover:from-muted/60 hover:to-muted/30 border-l-4 border-accent/30 hover:border-accent rounded-xl transition-all cursor-pointer hover:shadow-lg" data-index="${index}">
-        <div class="flex items-start justify-between gap-4">
+      <div class="commit-item p-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg transition-all cursor-pointer" data-index="${index}">
+        <div class="flex items-start justify-between gap-3">
           <div class="flex-1 space-y-2">
-            <div class="flex items-center gap-3 flex-wrap">
-              <span class="px-2 py-1 bg-red-500/20 text-red-400 font-mono text-xs rounded-md">${commit.hash}</span>
-              <span class="flex items-center gap-1 text-accent text-sm font-medium">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-                </svg>
-                ${commit.author}
-              </span>
-              <span class="px-2 py-0.5 ${sizeColor} bg-current/10 text-xs font-semibold rounded-full">${sizeLabel}</span>
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="px-2 py-0.5 bg-purple-500/20 text-purple-300 font-mono text-xs rounded">${commit.hash}</span>
+              <span class="text-gray-300 text-sm">${commit.author}</span>
             </div>
-            <div class="text-foreground font-medium">${commit.message}</div>
-            <div class="flex items-center gap-4 text-xs">
-              <span class="flex items-center gap-1 text-muted-foreground">
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                </svg>
-                ${commit.date.toLocaleDateString()}
-              </span>
-              <span class="flex items-center gap-1 text-green-400 font-semibold">
-                +${commit.additions}
-              </span>
-              <span class="flex items-center gap-1 text-red-400 font-semibold">
-                -${commit.deletions}
-              </span>
+            <div class="text-white text-sm">${commit.message}</div>
+            <div class="flex items-center gap-3 text-xs text-gray-400">
+              <span>${dateStr}</span>
+              <span class="text-green-400">+${commit.additions}</span>
+              <span class="text-red-400">-${commit.deletions}</span>
             </div>
-          </div>
-          <div class="text-2xl opacity-0 group-hover:opacity-100 transition-opacity">
-            🎵
           </div>
         </div>
       </div>
@@ -188,10 +174,10 @@ function displayCommits() {
 // Show status message
 function showStatus(message, isError = false) {
   statusDiv.textContent = message;
-  statusDiv.className = `mt-4 p-4 rounded-lg text-center font-medium ${
+  statusDiv.className = `p-4 rounded-lg text-center text-sm ${
     isError 
-      ? 'bg-destructive/10 border border-destructive/30 text-destructive' 
-      : 'bg-accent/10 border border-accent/30 text-accent'
+      ? 'bg-red-500/10 border border-red-500/30 text-red-300' 
+      : 'bg-green-500/10 border border-green-500/30 text-green-300'
   }`;
   statusDiv.classList.remove('hidden');
 }
@@ -245,18 +231,24 @@ analyzeBtn.addEventListener('click', async () => {
 
 // Play symphony
 playBtn.addEventListener('click', async () => {
-  // Start Tone.js audio context (required by browser)
-  await Tone.start();
-  
-  isPlaying = true;
-  currentCommitIndex = 0;
-  playBtn.disabled = true;
-  stopBtn.disabled = false;
-  analyzeBtn.disabled = true;
-  
-  showStatus('🎵 Playing your git symphony...');
-  
-  playSymphony();
+  try {
+    // Start Tone.js audio context (required by browser)
+    await Tone.start();
+    console.log('Tone.js started, context state:', Tone.context.state);
+    
+    isPlaying = true;
+    currentCommitIndex = 0;
+    playBtn.disabled = true;
+    stopBtn.disabled = false;
+    analyzeBtn.disabled = true;
+    
+    showStatus('🎵 Playing your git symphony...');
+    
+    playSymphony();
+  } catch (error) {
+    console.error('Error starting playback:', error);
+    showStatus('❌ Error starting playback: ' + error.message, true);
+  }
 });
 
 // Stop playback
@@ -286,15 +278,18 @@ async function playSymphony() {
   }
   
   const commit = commits[currentCommitIndex];
+  console.log('Playing commit', currentCommitIndex, commit);
+  
   const { note, duration, instrument, chord, totalChanges } = commitToNote(commit, currentCommitIndex);
+  console.log('Note:', note, 'Duration:', duration, 'Instrument:', instrument);
   
   // Highlight current commit
   document.querySelectorAll('.commit-item').forEach((el, idx) => {
     if (idx === currentCommitIndex) {
-      el.classList.add('playing', 'scale-105', '!border-l-8', '!border-accent', 'shadow-2xl', 'shadow-accent/50', '!bg-accent/20');
+      el.classList.add('playing', '!bg-purple-500/30', '!border-purple-500', 'ring-2', 'ring-purple-500');
       el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
-      el.classList.remove('playing', 'scale-105', '!border-l-8', '!border-accent', 'shadow-2xl', 'shadow-accent/50', '!bg-accent/20');
+      el.classList.remove('playing', '!bg-purple-500/30', '!border-purple-500', 'ring-2', 'ring-purple-500');
     }
   });
   
@@ -302,12 +297,21 @@ async function playSymphony() {
   highlightCommit(currentCommitIndex);
   
   // Play note or chord
-  const selectedInstrument = instruments[instrument];
-  if (chord) {
-    // Play chord for big commits
-    selectedInstrument.triggerAttackRelease(chord, duration);
-  } else {
-    selectedInstrument.triggerAttackRelease(note, duration);
+  try {
+    const selectedInstrument = instruments[instrument];
+    if (!selectedInstrument) {
+      console.error('Instrument not found:', instrument);
+      return;
+    }
+    
+    if (chord) {
+      // Play chord for big commits
+      selectedInstrument.triggerAttackRelease(chord, duration);
+    } else {
+      selectedInstrument.triggerAttackRelease(note, duration);
+    }
+  } catch (error) {
+    console.error('Error playing note:', error);
   }
   
   // Add visual feedback based on changes
@@ -327,6 +331,32 @@ async function playSymphony() {
 
 // Initial state
 hideStatus();
+
+// Theme toggle
+let isDarkTheme = true;
+
+themeToggle.addEventListener('click', () => {
+  isDarkTheme = !isDarkTheme;
+  
+  if (isDarkTheme) {
+    document.documentElement.classList.add('dark');
+    document.body.style.background = 'linear-gradient(to bottom right, rgb(15 23 42), rgb(88 28 135), rgb(15 23 42))';
+    themeIcon.textContent = '🌙';
+    themeText.textContent = 'Dark';
+  } else {
+    document.documentElement.classList.remove('dark');
+    document.body.style.background = 'linear-gradient(to bottom right, rgb(241 245 249), rgb(216 180 254), rgb(241 245 249))';
+    themeIcon.textContent = '☀️';
+    themeText.textContent = 'Light';
+  }
+});
+
+// Reset camera button
+resetCamera.addEventListener('click', () => {
+  if (window.resetCameraView) {
+    window.resetCameraView();
+  }
+});
 
 // Initialize 3D visualization on load
 window.addEventListener('DOMContentLoaded', () => {

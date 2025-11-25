@@ -3,6 +3,7 @@ import simpleGit from 'simple-git';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fs from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,14 +17,36 @@ app.use(express.json());
 // Analyze a git repository
 app.post('/api/analyze', async (req, res) => {
   try {
-    const { repoPath } = req.body;
+    let { repoPath } = req.body;
     
     if (!repoPath) {
       return res.status(400).json({ error: 'Repository path is required' });
     }
 
-    // Resolve path (handle relative paths)
-    const resolvedPath = path.resolve(repoPath);
+    let resolvedPath;
+    let isTemporary = false;
+    
+    // Check if it's a GitHub URL
+    if (repoPath.startsWith('http://') || repoPath.startsWith('https://') || repoPath.includes('github.com')) {
+      // Clone to temporary directory
+      const tempDir = path.join('/tmp', `gitsymphony-${Date.now()}`);
+      console.log(`Cloning ${repoPath} to ${tempDir}...`);
+      
+      try {
+        await simpleGit().clone(repoPath, tempDir, ['--depth', '100']);
+        resolvedPath = tempDir;
+        isTemporary = true;
+      } catch (cloneError) {
+        console.error('Clone error:', cloneError);
+        return res.status(400).json({ 
+          error: 'Failed to clone repository. Make sure the URL is correct and the repo is public.',
+          details: cloneError.message 
+        });
+      }
+    } else {
+      // Resolve path (handle relative paths)
+      resolvedPath = path.resolve(repoPath);
+    }
     
     const git = simpleGit(resolvedPath);
     
@@ -74,11 +97,21 @@ app.post('/api/analyze', async (req, res) => {
       })
     );
 
-    res.json({
+    const response = {
       repoPath: resolvedPath,
       commitCount: commits.length,
       commits: commits.reverse() // Oldest first
-    });
+    };
+    
+    // Clean up temporary directory if it was cloned
+    if (isTemporary) {
+      setTimeout(() => {
+        fs.rmSync(resolvedPath, { recursive: true, force: true });
+        console.log(`Cleaned up temporary directory: ${resolvedPath}`);
+      }, 5000); // Clean up after 5 seconds
+    }
+    
+    res.json(response);
 
   } catch (error) {
     console.error('Error analyzing repository:', error);

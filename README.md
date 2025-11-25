@@ -126,11 +126,11 @@ npm run dev
 ### Demo
 - **Live App:** http://localhost:5173 (run locally)
 - **Video:** [Coming soon - 3 minute demo]
-- **Repository:** https://github.com/[your-username]/gitsymphony
+- **Repository:** https://github.com/KHemanthRaju/gitsymphony
 
 ### Try It Yourself
 ```bash
-git clone https://github.com/[your-username]/gitsymphony
+git clone https://github.com/KHemanthRaju/gitsymphony
 cd gitsymphony
 npm install
 npm run dev:all

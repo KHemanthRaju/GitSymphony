@@ -60,7 +60,7 @@ git add .
 git commit -m "Add GitSymphony - Kiroween Hackathon submission"
 
 # Create repo on GitHub, then:
-git remote add origin https://github.com/[your-username]/gitsymphony
+git remote add origin https://github.com/KHemanthRaju/gitsymphony
 git branch -M main
 git push -u origin main
 ```
@@ -89,7 +89,7 @@ git push -u origin main
 ### 3. Test on Fresh Machine (Optional but Recommended)
 ```bash
 # Clone your repo
-git clone https://github.com/[your-username]/gitsymphony
+git clone https://github.com/KHemanthRaju/gitsymphony
 cd gitsymphony
 
 # Follow QUICKSTART.md
@@ -102,7 +102,7 @@ npm run dev:all
 ### 4. Fill Out Submission Form
 
 **Have Ready:**
-- Repository URL: https://github.com/[your-username]/gitsymphony
+- Repository URL: https://github.com/KHemanthRaju/gitsymphony
 - Demo Video URL: [YouTube/Vimeo link]
 - Application URL: "Local setup - see README" or [deployed URL]
 - Category: Frankenstein

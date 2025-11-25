@@ -132,7 +132,7 @@
 - **Tagline:** Turn your git commit history into a musical symphony with 3D visualization
 
 ### URLs
-- **Repository URL:** https://github.com/[username]/gitsymphony
+- **Repository URL:** https://github.com/KHemanthRaju/gitsymphony
 - **Application URL:** [Deployed URL or "Local setup - see README"]
 - **Demo Video URL:** [YouTube/Vimeo link]
 
