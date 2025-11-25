@@ -1,15 +1,23 @@
-# 🎵 GitSymphony 👻
+# 🎵 GitSymphony
 
-Turn your git commit history into generative music and visualizations!
+> Transform your Git commit history into a beautiful symphony with 3D visualizations
 
-## Frankenstein Category - Kiroween Hackathon
+[![Kiroween 2024](https://img.shields.io/badge/Kiroween-2024-purple?style=for-the-badge)](https://kiroween.dev)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-green?style=for-the-badge&logo=node.js)](https://nodejs.org)
 
-This project combines incompatible technologies:
-- **Git** (version control) + **Web Audio API** (music generation) + **Visual effects**
+![GitSymphony Hero](screenshots/hero.png)
 
-## Features
+## 🎃 Kiroween Hackathon - Frankenstein Category
+
+GitSymphony combines three incompatible technologies into one harmonious experience:
+- **Git** (version control) + **Web Audio API** (music generation) + **Three.js** (3D graphics)
+
+## ✨ Features
 
 ### 🎵 Musical Mapping
+
+![Commits with Music](screenshots/02-with-commits.png)
 - **Real git integration** - Analyzes actual repositories via backend API
 - **Multiple instruments** - Different file types play different instruments:
   - JavaScript/TypeScript → Synth
@@ -23,6 +31,9 @@ This project combines incompatible technologies:
 - **Pentatonic scale** - Always sounds musical
 
 ### 🌌 3D Visualization
+
+![3D Solar System](screenshots/03-playing.png)
+
 - **Commit galaxy** - Each commit is a sphere in 3D space
 - **Color coding**:
   - Red → Large commits (>100 changes)
@@ -33,15 +44,23 @@ This project combines incompatible technologies:
 - **Real-time highlighting** - Active commit pulses and scales up
 - **Rotating camera** - Smooth orbital view
 
-### 🎮 Controls
-- 🔍 Analyze any local git repository
-- ▶️ Play/pause symphony
-- 📊 Scrolling commit list with sync highlighting
-- 🎨 Dynamic background effects for big commits
+### 🎮 Interactive Controls
 
-## Quick Start
+- 🔍 **Analyze** any local git repository or GitHub URL
+- ▶️ **Play/Stop** your git symphony
+- 📊 **Real-time sync** between audio and visual highlighting
+- 🌓 **Dark/Light mode** toggle
+- 🎨 **Interactive 3D** - Drag to rotate, scroll to zoom
+
+![Light Mode](screenshots/04-light-mode.png)
+
+## 🚀 Quick Start
 
 ```bash
+# Clone the repository
+git clone https://github.com/KHemanthRaju/gitsymphony.git
+cd gitsymphony
+
 # Install dependencies
 npm install
 
@@ -49,16 +68,24 @@ npm install
 npm run dev:all
 ```
 
-Open http://localhost:5173 in your browser.
+Open http://localhost:5174 in your browser and start analyzing repositories!
 
-**Or run separately:**
+### Alternative: Run Separately
+
 ```bash
-# Terminal 1 - Backend API
+# Terminal 1 - Backend API (port 3001)
 npm run server
 
-# Terminal 2 - Frontend
+# Terminal 2 - Frontend (port 5173)
 npm run dev
 ```
+
+### Try with Your Own Repository
+
+1. Enter `.` to analyze the current directory
+2. Or paste any public GitHub URL: `https://github.com/user/repo`
+3. Click **Analyze** to load commits
+4. Click **Play** to hear your git symphony!
 
 ## How It Works
 
@@ -91,56 +118,105 @@ npm run dev
 - [ ] Multiple repo comparison
 - [ ] Spec-driven development documentation
 
-## Tech Stack
+## 🛠️ Tech Stack
 
-**Frontend:**
-- Vite
-- Tone.js (Web Audio API wrapper)
-- Three.js (3D visualization)
-- Tailwind CSS + shadcn/ui (styling)
-- Vanilla JavaScript
+### Frontend
+- **Vite** - Lightning-fast build tool
+- **Tone.js** - Web Audio API framework for music generation
+- **Three.js** - 3D graphics and visualization
+- **Tailwind CSS** - Utility-first styling
+- **shadcn/ui** - Beautiful UI components
+- **Vanilla JavaScript** - No framework overhead
 
-**Backend:**
-- Node.js + Express
-- simple-git (Git integration)
-- CORS enabled
+### Backend
+- **Node.js + Express** - REST API server
+- **simple-git** - Git repository parsing
+- **CORS** - Cross-origin support
 
----
+### Development Tools
+- **Kiro AI** - AI-powered development assistant
+- **Playwright** - Browser automation for screenshots
+- **FFmpeg** - Video generation from screenshots
 
-## 🎃 Kiroween Hackathon Submission
+## 📹 Demo
 
-### Category: Frankenstein
-**Incompatible Technologies Combined:**
-- Git (version control system)
-- Web Audio API (music generation)
-- Three.js (3D graphics)
+Watch GitSymphony in action:
 
-### Kiro Features Used
-- ✅ **Vibe Coding:** Rapid prototyping and iterative development
-- ✅ **Steering Docs:** Music theory, project structure, git analysis guidelines
-- ✅ **Agent Hooks:** Automated testing and code quality checks
-- ✅ **Spec-Driven Development:** Export feature planning and documentation
-
-**See [KIRO_USAGE.md](./KIRO_USAGE.md) for detailed explanation of how Kiro was used.**
-
-### Demo
-- **Live App:** http://localhost:5173 (run locally)
-- **Video:** [Coming soon - 3 minute demo]
-- **Repository:** https://github.com/KHemanthRaju/gitsymphony
-
-### Try It Yourself
-```bash
-git clone https://github.com/KHemanthRaju/gitsymphony
-cd gitsymphony
-npm install
-npm run dev:all
-```
-
-Then open http://localhost:5173 and analyze any git repository!
+https://github.com/KHemanthRaju/gitsymphony/raw/main/screenshots/gitsymphony-demo.mp4
 
 ---
 
-Built with ❤️ and Kiro for Kiroween 2024 🎃
+## 🎃 Kiroween 2024 Hackathon Submission
+
+### Category: 👻 Frankenstein
+
+**Incompatible Technologies Successfully Combined:**
+- 🔧 **Git** - Version control system
+- 🎵 **Web Audio API** - Real-time music generation
+- 🌌 **Three.js** - 3D graphics rendering
+
+### Kiro AI Features Utilized
+
+This project was built with extensive use of Kiro AI's advanced features:
+
+- ✅ **Vibe Coding** - Rapid prototyping and iterative development
+- ✅ **Steering Documents** - Custom guidelines for music theory, project structure, and git analysis
+- ✅ **Agent Hooks** - Automated testing and code quality checks on file save
+- ✅ **Spec-Driven Development** - Structured feature planning with requirements, design, and tasks
+- ✅ **Context Management** - Efficient use of #File, #Folder, and #Codebase references
+
+**📖 See [KIRO_USAGE.md](./KIRO_USAGE.md) for detailed documentation of Kiro integration.**
+
+### Project Links
+
+- 🌐 **Repository:** [github.com/KHemanthRaju/gitsymphony](https://github.com/KHemanthRaju/gitsymphony)
+- 📚 **Documentation:** [Quick Start Guide](./QUICKSTART.md) | [Deployment Guide](./DEPLOYMENT.md)
+- 🎬 **Demo Video:** [screenshots/gitsymphony-demo.mp4](./screenshots/gitsymphony-demo.mp4)
+
+---
+
+## 📖 Documentation
+
+- **[QUICKSTART.md](./QUICKSTART.md)** - Get started in 5 minutes
+- **[KIRO_USAGE.md](./KIRO_USAGE.md)** - How Kiro AI was used to build this project
+- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Deploy to Vercel and Railway
+- **[screenshots/README.md](./screenshots/README.md)** - Media assets documentation
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- **Kiro AI Team** - For creating an amazing AI-powered development tool
+- **Kiroween 2024** - For hosting this creative hackathon
+- **Tone.js & Three.js Communities** - For excellent documentation and examples
+
+---
+
+<div align="center">
+
+**Built with ❤️ and [Kiro AI](https://kiro.dev) for Kiroween 2024 🎃**
+
+[⭐ Star this repo](https://github.com/KHemanthRaju/gitsymphony) | [🐛 Report Bug](https://github.com/KHemanthRaju/gitsymphony/issues) | [💡 Request Feature](https://github.com/KHemanthRaju/gitsymphony/issues)
+
+</div>
 
 ## License
 MIT License - See [LICENSE](./LICENSE) for details
