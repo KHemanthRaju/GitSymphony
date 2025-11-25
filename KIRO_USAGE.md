@@ -332,4 +332,4 @@ GitSymphony demonstrates that AI-assisted development isn't just about speed—i
 
 ---
 
-Built with ❤️ and Kiro for Kiroween 2024 🎃
+Built with ❤️ and Kiro for Kiroween 2025 🎃

@@ -2,7 +2,7 @@
 
 > Transform your Git commit history into a beautiful symphony with 3D visualizations
 
-[![Kiroween 2024](https://img.shields.io/badge/Kiroween-2024-purple?style=for-the-badge)](https://kiroween.dev)
+[![Kiroween 2025](https://img.shields.io/badge/Kiroween-2025-purple?style=for-the-badge)](https://kiroween.dev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green?style=for-the-badge&logo=node.js)](https://nodejs.org)
 
@@ -146,7 +146,7 @@ https://github.com/KHemanthRaju/gitsymphony/raw/main/screenshots/gitsymphony-dem
 
 ---
 
-## 🎃 Kiroween 2024 Hackathon Submission
+## 🎃 Kiroween 2025 Hackathon Submission
 
 ### Category: 👻 Frankenstein
 
@@ -205,14 +205,14 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 ## 🙏 Acknowledgments
 
 - **Kiro AI Team** - For creating an amazing AI-powered development tool
-- **Kiroween 2024** - For hosting this creative hackathon
+- **Kiroween 2025** - For hosting this creative hackathon
 - **Tone.js & Three.js Communities** - For excellent documentation and examples
 
 ---
 
 <div align="center">
 
-**Built with ❤️ and [Kiro AI](https://kiro.dev) for Kiroween 2024 🎃**
+**Built with ❤️ and [Kiro AI](https://kiro.dev) for Kiroween 2025 🎃**
 
 [⭐ Star this repo](https://github.com/KHemanthRaju/gitsymphony) | [🐛 Report Bug](https://github.com/KHemanthRaju/gitsymphony/issues) | [💡 Request Feature](https://github.com/KHemanthRaju/gitsymphony/issues)
 

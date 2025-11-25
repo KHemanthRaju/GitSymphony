@@ -12,7 +12,7 @@ Click the **⚙️ gear icon** next to "About" (top right of the page)
 
 **Description:**
 ```
-🎵 Transform Git commit history into beautiful symphonies with 3D visualizations. Built for Kiroween 2024 Hackathon.
+🎵 Transform Git commit history into beautiful symphonies with 3D visualizations. Built for Kiroween 2025 Hackathon.
 ```
 
 **Website:**
@@ -69,7 +69,7 @@ In Settings → General → Features:
 
 ## That's It! 🎉
 
-Your repository is now professionally configured and ready for the Kiroween 2024 hackathon submission!
+Your repository is now professionally configured and ready for the Kiroween 2025 hackathon submission!
 
 ### What You've Accomplished:
 
@@ -84,7 +84,7 @@ Your repository is now professionally configured and ready for the Kiroween 2024
 
 - **Repository:** https://github.com/KHemanthRaju/GitSymphony
 - **Live Demo:** https://gitsymphony.vercel.app
-- **Twitter/X:** Share with #Kiroween2024 #GitSymphony
+- **Twitter/X:** Share with #Kiroween2025 #GitSymphony
 - **LinkedIn:** Post about your hackathon project
 - **Discord:** Share in the Kiro community
 

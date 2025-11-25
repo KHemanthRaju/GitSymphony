@@ -5,7 +5,7 @@ Use these settings to make your GitSymphony repository look professional.
 ## Repository Description
 
 ```
-🎵 Transform Git commit history into beautiful symphonies with 3D visualizations. Built for Kiroween 2024 Hackathon.
+🎵 Transform Git commit history into beautiful symphonies with 3D visualizations. Built for Kiroween 2025 Hackathon.
 ```
 
 ## Website URL
@@ -47,7 +47,7 @@ Go to your repository settings and update:
 
 1. **Description:** 
    ```
-   🎵 Transform Git commit history into beautiful symphonies with 3D visualizations. Built for Kiroween 2024 Hackathon.
+   🎵 Transform Git commit history into beautiful symphonies with 3D visualizations. Built for Kiroween 2025 Hackathon.
    ```
 
 2. **Website:** 
@@ -69,7 +69,7 @@ Go to your repository settings and update:
 ## README Badges
 
 The README already includes these badges:
-- Kiroween 2024
+- Kiroween 2025
 - MIT License
 - Node.js version
 
