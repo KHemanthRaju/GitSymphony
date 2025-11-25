@@ -28,11 +28,12 @@ const SCALES = {
 
 const BASE_NOTE = 'C3';
 
-// Initialize multiple instruments
+// Initialize multiple instruments with LOUDER volume
 const instruments = {
   synth: new Tone.PolySynth(Tone.Synth, {
     oscillator: { type: 'sine' },
-    envelope: { attack: 0.05, decay: 0.1, sustain: 0.3, release: 1 }
+    envelope: { attack: 0.05, decay: 0.1, sustain: 0.3, release: 1 },
+    volume: 0  // 0 dB = normal volume
   }).toDestination(),
   
   piano: new Tone.Sampler({
@@ -40,15 +41,51 @@ const instruments = {
       C4: "C4.mp3",
     },
     baseUrl: "https://tonejs.github.io/audio/salamander/",
+    volume: 0
   }).toDestination(),
   
   bass: new Tone.MonoSynth({
     oscillator: { type: 'sawtooth' },
-    envelope: { attack: 0.1, decay: 0.3, sustain: 0.4, release: 0.8 }
+    envelope: { attack: 0.1, decay: 0.3, sustain: 0.4, release: 0.8 },
+    volume: 0
   }).toDestination(),
   
-  pluck: new Tone.PluckSynth().toDestination()
+  pluck: new Tone.PluckSynth({
+    volume: 0
+  }).toDestination(),
+  
+  // Drum sounds
+  kick: new Tone.MembraneSynth({
+    pitchDecay: 0.05,
+    octaves: 10,
+    oscillator: { type: 'sine' },
+    envelope: { attack: 0.001, decay: 0.4, sustain: 0.01, release: 1.4 },
+    volume: 2
+  }).toDestination(),
+  
+  snare: new Tone.NoiseSynth({
+    noise: { type: 'white' },
+    envelope: { attack: 0.001, decay: 0.2, sustain: 0 },
+    volume: 0
+  }).toDestination(),
+  
+  hihat: new Tone.MetalSynth({
+    frequency: 200,
+    envelope: { attack: 0.001, decay: 0.1, release: 0.01 },
+    harmonicity: 5.1,
+    modulationIndex: 32,
+    resonance: 4000,
+    octaves: 1.5,
+    volume: -5
+  }).toDestination()
 };
+
+// Set master volume to maximum
+Tone.Destination.volume.value = 0;
+
+// Log instrument initialization
+console.log('Instruments initialized:', Object.keys(instruments));
+console.log('Master volume set to:', Tone.Destination.volume.value);
 
 // File extension to instrument mapping
 const fileTypeToInstrument = {
@@ -60,9 +97,14 @@ const fileTypeToInstrument = {
   '.java': 'piano',
   '.go': 'bass',
   '.rs': 'bass',
+  '.c': 'bass',
+  '.cpp': 'bass',
   '.css': 'pluck',
   '.html': 'pluck',
   '.md': 'pluck',
+  '.json': 'pluck',
+  '.yml': 'pluck',
+  '.yaml': 'pluck',
   'default': 'synth'
 };
 
@@ -193,7 +235,7 @@ analyzeBtn.addEventListener('click', async () => {
   showStatus('🔍 Analyzing repository...');
   
   try {
-    const response = await fetch('http://localhost:3001/api/analyze', {
+    const response = await fetch('https://gitsymphony-production.up.railway.app/api/analyze', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -236,6 +278,18 @@ playBtn.addEventListener('click', async () => {
     await Tone.start();
     console.log('Tone.js started, context state:', Tone.context.state);
     
+    // Test sound to verify audio is working
+    console.log('Audio context state:', Tone.context.state);
+    console.log('Master volume:', Tone.Destination.volume.value);
+    
+    // Play a LOUD test beep
+    const testSynth = new Tone.Synth({
+      volume: 5,  // Extra loud
+      oscillator: { type: 'sine' }
+    }).toDestination();
+    testSynth.triggerAttackRelease('C5', '1');
+    console.log('🔊 LOUD TEST BEEP PLAYED - Did you hear it? If not, check system volume!');
+    
     isPlaying = true;
     currentCommitIndex = 0;
     playBtn.disabled = true;
@@ -244,7 +298,8 @@ playBtn.addEventListener('click', async () => {
     
     showStatus('🎵 Playing your git symphony...');
     
-    playSymphony();
+    // Small delay to ensure audio context is ready
+    setTimeout(() => playSymphony(), 100);
   } catch (error) {
     console.error('Error starting playback:', error);
     showStatus('❌ Error starting playback: ' + error.message, true);
@@ -267,23 +322,26 @@ stopBtn.addEventListener('click', () => {
 });
 
 // Play through commits sequentially
-async function playSymphony() {
+function playSymphony() {
+  // Check if we should stop
   if (!isPlaying || currentCommitIndex >= commits.length) {
-    isPlaying = false;
-    stopBtn.disabled = true;
-    playBtn.disabled = false;
-    analyzeBtn.disabled = false;
-    showStatus('✅ Symphony complete!');
+    if (currentCommitIndex >= commits.length) {
+      isPlaying = false;
+      stopBtn.disabled = true;
+      playBtn.disabled = false;
+      analyzeBtn.disabled = false;
+      showStatus('✅ Symphony complete!');
+    }
     return;
   }
   
+  // Get current commit
   const commit = commits[currentCommitIndex];
-  console.log('Playing commit', currentCommitIndex, commit);
+  const { note, duration, instrument, totalChanges } = commitToNote(commit, currentCommitIndex);
   
-  const { note, duration, instrument, chord, totalChanges } = commitToNote(commit, currentCommitIndex);
-  console.log('Note:', note, 'Duration:', duration, 'Instrument:', instrument);
+  console.log(`Playing commit ${currentCommitIndex + 1}/${commits.length}: ${note} for ${duration}s`);
   
-  // Highlight current commit
+  // Highlight in UI
   document.querySelectorAll('.commit-item').forEach((el, idx) => {
     if (idx === currentCommitIndex) {
       el.classList.add('playing', '!bg-purple-500/30', '!border-purple-500', 'ring-2', 'ring-purple-500');
@@ -293,40 +351,46 @@ async function playSymphony() {
     }
   });
   
-  // Highlight in 3D visualization
-  highlightCommit(currentCommitIndex);
-  
-  // Play note or chord
+  // Highlight in 3D
   try {
-    const selectedInstrument = instruments[instrument];
-    if (!selectedInstrument) {
-      console.error('Instrument not found:', instrument);
-      return;
+    highlightCommit(currentCommitIndex);
+  } catch (e) {
+    console.warn('3D highlight failed:', e);
+  }
+  
+  // Play sound
+  try {
+    const inst = instruments[instrument] || instruments.synth;
+    console.log('Triggering sound:', note, 'on', instrument, 'for', duration, 'seconds');
+    inst.triggerAttackRelease(note, duration);
+    
+    // Add drums for rhythm
+    instruments.kick.triggerAttackRelease('C1', '8n');  // Kick on every commit
+    
+    // Snare on larger commits
+    if (totalChanges > 50) {
+      setTimeout(() => {
+        instruments.snare.triggerAttackRelease('8n');
+      }, 100);
     }
     
-    if (chord) {
-      // Play chord for big commits
-      selectedInstrument.triggerAttackRelease(chord, duration);
-    } else {
-      selectedInstrument.triggerAttackRelease(note, duration);
+    // Hi-hat for small commits
+    if (totalChanges < 30) {
+      instruments.hihat.triggerAttackRelease('16n');
     }
-  } catch (error) {
-    console.error('Error playing note:', error);
+    
+    console.log('Sound + drums triggered successfully');
+  } catch (e) {
+    console.error('Sound failed:', e);
+    console.error('Instrument:', instrument, 'Available:', Object.keys(instruments));
   }
   
-  // Add visual feedback based on changes
-  if (totalChanges > 100) {
-    document.body.style.background = 'linear-gradient(135deg, #2a1a3e 0%, #26314e 100%)';
-    setTimeout(() => {
-      document.body.style.background = 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)';
-    }, duration * 1000);
-  }
-  
-  // Wait for note duration + small gap
-  const waitTime = (duration + 0.15) * 1000;
+  // Move to next commit
   currentCommitIndex++;
   
-  setTimeout(() => playSymphony(), waitTime);
+  // Schedule next
+  const nextDelay = (duration + 0.2) * 1000;
+  setTimeout(() => playSymphony(), nextDelay);
 }
 
 // Initial state
