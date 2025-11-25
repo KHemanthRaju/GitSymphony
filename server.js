@@ -122,11 +122,26 @@ app.post('/api/analyze', async (req, res) => {
   }
 });
 
-// Health check
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok' });
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({ 
+    status: 'ok',
+    message: 'GitSymphony API',
+    version: '1.0.0',
+    endpoints: {
+      health: '/api/health',
+      analyze: 'POST /api/analyze'
+    }
+  });
 });
 
-app.listen(PORT, () => {
-  console.log(`🎵 GitSymphony API running on http://localhost:${PORT}`);
+// Health check
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🎵 GitSymphony API running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`Railway URL: ${process.env.RAILWAY_PUBLIC_DOMAIN || 'localhost'}`);
 });
