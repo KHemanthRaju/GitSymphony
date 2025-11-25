@@ -1,0 +1,13 @@
+{
+  "name": "Test GitSymphony on Save",
+  "description": "Automatically test the application when JavaScript files are saved",
+  "trigger": {
+    "type": "onFileSave",
+    "filePattern": "**/*.js"
+  },
+  "action": {
+    "type": "shellCommand",
+    "command": "echo '🎵 Testing GitSymphony...' && node -c main.js && node -c server.js && node -c visualization.js && echo '✅ All files valid!'"
+  },
+  "enabled": true
+}

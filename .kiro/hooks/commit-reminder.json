@@ -1,0 +1,12 @@
+{
+  "name": "Commit Message Reminder",
+  "description": "Remind about commit message format when starting a new session",
+  "trigger": {
+    "type": "onSessionStart"
+  },
+  "action": {
+    "type": "sendMessage",
+    "message": "Remember: Use imperative mood for commit messages (e.g., 'Add feature' not 'Added feature'). Keep first line under 50 characters."
+  },
+  "enabled": true
+}

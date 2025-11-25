@@ -1,0 +1,13 @@
+{
+  "name": "Music Theory Validation",
+  "description": "Check music theory guidelines when modifying main.js",
+  "trigger": {
+    "type": "onFileSave",
+    "filePattern": "main.js"
+  },
+  "action": {
+    "type": "sendMessage",
+    "message": "Verify music theory guidelines: Are you using pentatonic scale? Are note durations clamped (0.2-1.5s)? Are octaves in safe range (C3-C6)?"
+  },
+  "enabled": true
+}
